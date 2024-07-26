@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const logger = require('./logger'); // Assuming logger.js is in the same directory
+const dotenv = require('dotenv');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/movieapi', {
+    await mongoose.connect(process.env.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
