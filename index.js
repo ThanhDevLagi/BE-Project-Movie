@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: ["http://localhost:3000"]
+  origin: ["http://localhost:3000", "https://fe-build-project-movie-ho9dn704m-thanhdevs-projects-daac748b.vercel.app"]
 }));
 
 app.use(express.urlencoded({ extended: true }));
