@@ -292,6 +292,28 @@ const removeFavoriteMovie = async (req, res) => {
         return res.status(500).json({ message: "Có lỗi xảy ra khi xóa khỏi danh sách yêu thích" });
     }
 };
+
+const commentMovie = async (req, res, next) => {
+    try{
+        const { userId, slug, comment } = req.body;
+        if(!userId ||!slug ||!comment){
+            return res.status(400).json({message: 'userId, movieId, comment là bắt buộc'});
+        }
+        const movie = await axios.get(`https://phim.nguonc.com/api/film/${slug}`, { httpsAgent });
+        if(!movie){
+            return res.status(404).json({message: 'Phim không tồn tại'});
+        }
+        movie.comments.push({userId, comment});
+        await movie.save();
+        res.status(201).json(movie);
+    }catch(e){
+        console.error(error);
+        return res.status(500).json({ message: "Có lỗi xảy ra về bình luận" });
+    }
+}
+
+
+
 module.exports = {
     moviesApiUpdate,
     moviesApiSingle,
@@ -306,5 +328,6 @@ module.exports = {
     loginUser,
     addFavoriteMovie,
     getFavoriteMovies,
-    removeFavoriteMovie
+    removeFavoriteMovie,
+    commentMovie
 };
