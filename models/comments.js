@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-    idMovie: { type: String, required: true }, // Loại bỏ ref cho String
+    idMovie: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
     replies: [
@@ -14,6 +14,7 @@ const commentSchema = new Schema({
     ],
     createdAt: { type: Date, default: Date.now },
 });
+
 
 const Comments = mongoose.model('Comments', commentSchema);
 module.exports = Comments;
