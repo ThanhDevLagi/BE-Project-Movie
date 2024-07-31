@@ -34,7 +34,7 @@ router.post('/register', registerUser);
 router.post('/addFavoriteMovie', addFavoriteMovie);
 router.post('/removeFavoriteMovie', removeFavoriteMovie);
 router.post('/comments', commentMovie)
-router.post('/commentsReply', commentReply)
+router.post('/commentsReply/:id', commentReply)
 
 
 module.exports = router;
