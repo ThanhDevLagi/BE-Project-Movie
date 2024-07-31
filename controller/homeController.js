@@ -303,14 +303,50 @@ const commentMovie = async (req, res, next) => {
         if(!movie){
             return res.status(404).json({message: 'Phim không tồn tại'});
         }
-        movie.comments.push({userId, comment});
+        const newComment = {
+            idMovie: movie.id,
+            userId,
+            content: comment,
+            replies: [],
+            createdAt: new Date(),
+        };
+
+        movie.comments.push(newComment);
+
         await movie.save();
+
         res.status(201).json(movie);
+
     }catch(e){
         console.error(error);
         return res.status(500).json({ message: "Có lỗi xảy ra về bình luận" });
     }
 }
+
+const commentReply = async (req, res) => {
+    const { commentId, content } = req.body;
+
+    if (!req.user) {
+        return res.status(401).send({ error: 'You must be logged in to reply.' });
+    }
+
+    try {
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.status(404).send({ error: 'Comment not found.' });
+        }
+
+        comment.replies.push({
+            userId: req.user._id,
+            content,
+        });
+
+        await comment.save();
+        res.status(201).send(comment);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to add reply.' });
+    }
+};
 
 
 
@@ -329,5 +365,6 @@ module.exports = {
     addFavoriteMovie,
     getFavoriteMovies,
     removeFavoriteMovie,
-    commentMovie
+    commentMovie,
+    commentReply
 };
