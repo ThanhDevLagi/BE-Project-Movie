@@ -336,25 +336,28 @@ const commentMovie = async (req, res) => {
 
 
 const commentReply = async (req, res) => {
-    const {userId, commentId, reply } = req.body; 
+    const { userId, reply } = req.body;
+    const { id } = req.params;
+
     try {
-        const comment = await Comments.findById(commentId); // Ensure Comments is the correct model name
+        const comment = await Comments.findById(id);
         if (!comment) {
             return res.status(404).send({ error: 'Comment not found.' });
         }
 
         comment.replies.push({
             userId: userId,
-            content: reply, 
+            content: reply,
         });
 
         await comment.save();
         res.status(201).send(comment);
     } catch (error) {
-        console.error('Error:', error); // More detailed logging
+        console.error('Error:', error);
         res.status(500).send({ error: 'Failed to add reply.' });
     }
 };
+
 
 
 
