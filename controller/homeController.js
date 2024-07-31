@@ -5,6 +5,7 @@ const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Favorites = require('../models/favorites');
+const Comments = require('../models/comments');
 const { default: mongoose } = require('mongoose');
 
 const logError = (context, error) => {
@@ -293,35 +294,49 @@ const removeFavoriteMovie = async (req, res) => {
     }
 };
 
-const commentMovie = async (req, res, next) => {
+ // Ensure the correct path to the Comments model
+
+const getComments = async (req, res) => {
     try{
+        const { movieSlug } = req.params;
+        const comments = await Comments.findOne({movieId: movieSlug})
+        if (!comments) {
+            return res.status(404).json({ message: 'No comments found for this movie' });
+        }
+        return res.status(200).json(comments);
+    }catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'An error occurred while retrieving comments' });
+    }
+}
+
+const commentMovie = async (req, res) => {
+    try {
         const { userId, slug, comment } = req.body;
-        if(!userId ||!slug ||!comment){
-            return res.status(400).json({message: 'userId, movieId, comment là bắt buộc'});
+
+        if (!userId || !slug || !comment) {
+            return res.status(400).json({ message: 'userId, slug, and comment are required' });
         }
-        const movie = await axios.get(`https://phim.nguonc.com/api/film/${slug}`, { httpsAgent });
-        if(!movie){
-            return res.status(404).json({message: 'Phim không tồn tại'});
-        }
-        const newComment = {
-            idMovie: movie.id,
+
+        // Create a new comment document
+        const newComment = new Comments({
+            idMovie: slug,
             userId,
             content: comment,
             replies: [],
             createdAt: new Date(),
-        };
+        });
 
-        movie.comments.push(newComment);
+        // Save the comment to the database
+        await newComment.save();
 
-        await movie.save();
-
-        res.status(201).json(movie);
-
-    }catch(e){
-        console.error(error);
-        return res.status(500).json({ message: "Có lỗi xảy ra về bình luận" });
+        res.status(201).json(newComment);
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ message: "An error occurred while adding the comment" });
     }
-}
+};
+
 
 const commentReply = async (req, res) => {
     const { commentId, content } = req.body;
@@ -366,5 +381,6 @@ module.exports = {
     getFavoriteMovies,
     removeFavoriteMovie,
     commentMovie,
-    commentReply
+    commentReply,
+    getComments
 };

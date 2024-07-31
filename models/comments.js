@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
     id: mongoose.Schema.Types.ObjectId,
-    idMovie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie', required: true },
+    idMovie: { type: String, ref: 'Movie', required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
     replies: [
