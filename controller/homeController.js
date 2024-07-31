@@ -296,8 +296,7 @@ const removeFavoriteMovie = async (req, res) => {
 
 const getComments = async (req, res) => {
     try {
-        const { movieSlug } = req.params;
-        const comments = await Comments.find({ movieId: movieSlug });
+        const comments = await Comments.find({ idMovie: req.params.movieSlug });
         if (!comments || comments.length === 0) {
             return res.status(404).json({ message: 'No comments found for this movie' });
         }
