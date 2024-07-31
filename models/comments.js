@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-    id: mongoose.Schema.Types.ObjectId,
-    idMovie: { type: String, ref: 'Movie', required: true },
+    idMovie: { type: String, required: true }, // Loại bỏ ref cho String
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
     replies: [
