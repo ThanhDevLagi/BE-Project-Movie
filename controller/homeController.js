@@ -294,21 +294,20 @@ const removeFavoriteMovie = async (req, res) => {
     }
 };
 
- // Ensure the correct path to the Comments model
-
 const getComments = async (req, res) => {
-    try{
+    try {
         const { movieSlug } = req.params;
-        const comments = await Comments.findOne({movieId: movieSlug})
-        if (!comments) {
+        const comments = await Comments.find({ movieId: movieSlug });
+        if (!comments || comments.length === 0) {
             return res.status(404).json({ message: 'No comments found for this movie' });
         }
         return res.status(200).json(comments);
-    }catch (error) {
-        console.log(error)
+    } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: 'An error occurred while retrieving comments' });
     }
-}
+};
+
 
 const commentMovie = async (req, res) => {
     try {
