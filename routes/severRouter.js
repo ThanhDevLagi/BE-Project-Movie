@@ -26,7 +26,7 @@ router.get('/films/:slug', detailMovies);
 router.get('/films/the-loai/:slug', movieCategories);
 router.get('/users/:email', getUsers);
 router.get('/favoriteMovies/:userId', getFavoriteMovies);
-router.get('/getComments', getComments);
+router.get('/getComments/:id', getComments);
 
 //post
 router.post('/login', loginUser);
