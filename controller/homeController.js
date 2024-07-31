@@ -296,26 +296,19 @@ const removeFavoriteMovie = async (req, res) => {
 
 const getComments = async (req, res) => {
     try {
-        const movieSlug = req.params.movieSlug;
-
-        if (!movieSlug) {
-            return res.status(400).json({ message: 'Movie slug is required' });
-        }
-
-        const trimmedSlug = movieSlug.trim();
-        console.log("Movie Slug:", trimmedSlug);
-
-        const comments = await Comments.find({ idMovie: new RegExp('^' + trimmedSlug + '$', 'i') });
-
+        const movieSlug = req.params.movieSlug.trim();
+        console.log("Movie Slug:", movieSlug);
+        const comments = await Comments.find({ idMovie: movieSlug });
         if (!comments || comments.length === 0) {
             return res.status(404).json({ message: 'No comments found for this movie' });
         }
         return res.status(200).json(comments);
     } catch (error) {
-        console.error('Detailed Error:', error); // Ghi log chi tiết lỗi
+        console.error(error);
         return res.status(500).json({ message: 'An error occurred while retrieving comments' });
     }
 };
+
 
 
 
