@@ -337,15 +337,6 @@ const commentMovie = async (req, res) => {
 
 const commentReply = async (req, res) => {
     const { commentId, reply } = req.body; 
-
-    console.log('User:', req.user); // Debugging log
-    console.log('Comment ID:', commentId); // Debugging log
-    console.log('Reply:', reply); // Debugging log
-
-    if (!req.user) {
-        return res.status(401).send({ error: 'You must be logged in to reply.' });
-    }
-
     try {
         const comment = await Comments.findById(commentId); // Ensure Comments is the correct model name
         if (!comment) {
