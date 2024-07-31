@@ -336,7 +336,7 @@ const commentMovie = async (req, res) => {
 
 
 const commentReply = async (req, res) => {
-    const { commentId, reply } = req.body; 
+    const {userId, commentId, reply } = req.body; 
     try {
         const comment = await Comments.findById(commentId); // Ensure Comments is the correct model name
         if (!comment) {
@@ -344,7 +344,7 @@ const commentReply = async (req, res) => {
         }
 
         comment.replies.push({
-            userId: req.user._id,
+            userId: userId,
             content: reply, 
         });
 
