@@ -338,12 +338,16 @@ const commentMovie = async (req, res) => {
 const commentReply = async (req, res) => {
     const { commentId, reply } = req.body; 
 
+    console.log('User:', req.user); // Debugging log
+    console.log('Comment ID:', commentId); // Debugging log
+    console.log('Reply:', reply); // Debugging log
+
     if (!req.user) {
         return res.status(401).send({ error: 'You must be logged in to reply.' });
     }
 
     try {
-        const comment = await Comment.findById(commentId);
+        const comment = await Comments.findById(commentId); // Ensure Comments is the correct model name
         if (!comment) {
             return res.status(404).send({ error: 'Comment not found.' });
         }
@@ -356,6 +360,7 @@ const commentReply = async (req, res) => {
         await comment.save();
         res.status(201).send(comment);
     } catch (error) {
+        console.error('Error:', error); // More detailed logging
         res.status(500).send({ error: 'Failed to add reply.' });
     }
 };
