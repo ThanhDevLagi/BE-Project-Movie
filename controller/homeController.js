@@ -311,22 +311,20 @@ const getComments = async (req, res) => {
 
 const commentMovie = async (req, res) => {
     try {
-        const { userId, slug, comment } = req.body;
+        const { userId, movieSlug, comment } = req.body;
 
-        if (!userId || !slug || !comment) {
-            return res.status(400).json({ message: 'userId, slug, and comment are required' });
+        if (!userId || !movieSlug || !comment) {
+            return res.status(400).json({ message: 'userId, movieSlug, and comment are required' });
         }
 
-        // Create a new comment document
         const newComment = new Comments({
-            idMovie: slug,
+            idMovie: movieSlug, 
             userId,
             content: comment,
             replies: [],
             createdAt: new Date(),
         });
 
-        // Save the comment to the database
         await newComment.save();
 
         res.status(201).json(newComment);
@@ -338,7 +336,7 @@ const commentMovie = async (req, res) => {
 
 
 const commentReply = async (req, res) => {
-    const { commentId, content } = req.body;
+    const { commentId, reply } = req.body; 
 
     if (!req.user) {
         return res.status(401).send({ error: 'You must be logged in to reply.' });
@@ -352,7 +350,7 @@ const commentReply = async (req, res) => {
 
         comment.replies.push({
             userId: req.user._id,
-            content,
+            content: reply, 
         });
 
         await comment.save();
