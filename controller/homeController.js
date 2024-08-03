@@ -369,31 +369,20 @@ const createMovie = async (req, res) => {
     try {
         const movieData = req.body;
 
-        console.log('Received movie data:', movieData); 
-
-        if (movieData.category && typeof movieData.category === 'object' && !Array.isArray(movieData.category)) {
-            for (const [key, value] of Object.entries(movieData.category)) {
-                if (!value.group || !value.group.id || !value.group.name || !Array.isArray(value.list)) {
-                    throw new Error('Invalid category structure');
-                }
-                value.list.forEach(item => {
-                    if (!item.id || !item.name) {
-                        throw new Error('Invalid category item structure');
-                    }
-                });
-            }
-        } else {
-            throw new Error('Invalid category format');
+        // Chuyển đổi dữ liệu category từ frontend
+        if (movieData.categories) {
+            movieData.categories = movieData.categories;
         }
 
         const movie = new Movies(movieData);
         await movie.save();
         res.status(201).json({ message: 'Movie created successfully', movie });
     } catch (error) {
-        console.error('Error creating movie:', error.message);
+        console.error('Error creating movie:', error);
         res.status(500).json({ message: 'An error occurred while creating the movie', error: error.message });
     }
 };
+
 
 
 const groupCategory = async(req, res ) => {

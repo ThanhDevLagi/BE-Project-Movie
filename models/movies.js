@@ -3,23 +3,27 @@ const { Group } = require('./group'); // Đảm bảo đường dẫn là chính
 const Schema = mongoose.Schema;
 
 const MoviesSchema = new Schema({
-    id: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String, required: true },
-    slug: String,
-    original_name: String,
-    thumb_url: String,
-    poster_url: String,
-    created: { type: Date, default: Date.now },
-    modified: { type: Date, default: Date.now },
-    description: String,
-    total_episodes: Number,
-    current_episode: String,
-    time: String,
-    quality: String,
-    language: String,
-    director: String,
-    casts: String,
-    category: [{ type: Schema.Types.ObjectId, ref: 'Group' }] 
+    slug: { type: String, required: true },
+    original_name: { type: String, required: true },
+    thumb_url: { type: String },
+    poster_url: { type: String },
+    time: { type: String },
+    quality: { type: String },
+    language: { type: String },
+    description: { type: String },
+    categories: { type: Map, of: new Schema({
+        group: {
+            id: String,
+            name: String
+        },
+        list: [
+            {
+                id: String,
+                name: String
+            }
+        ]
+    }) }
 });
 
 const Movies = mongoose.model('Movies', MoviesSchema);
