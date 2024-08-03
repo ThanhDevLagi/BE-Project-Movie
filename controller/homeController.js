@@ -396,7 +396,14 @@ const createMovie = async (req, res) => {
     }
 };
 
-
+const groupCategory = async(req, res ) => {
+    try {
+        const groups = await Movies.Group.find().populate('list');
+        res.json(groups);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch groups', error });
+    }
+}
 
 module.exports = {
     moviesApiUpdate,
@@ -416,5 +423,6 @@ module.exports = {
     commentMovie,
     commentReply,
     getComments,
-    createMovie
+    createMovie,
+    groupCategory
 };

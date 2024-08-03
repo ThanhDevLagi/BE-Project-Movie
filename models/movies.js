@@ -33,4 +33,10 @@ const MoviesSchema = new Schema({
 });
 
 const Movies = mongoose.model('Movies', MoviesSchema);
-module.exports = Movies;
+const Category = mongoose.model('Category', CategorySchema);
+const Group = mongoose.model('Group', GroupSchema);
+module.exports = {
+    Movies,
+    Category,
+    Group
+};
