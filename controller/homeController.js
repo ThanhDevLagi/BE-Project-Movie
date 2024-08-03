@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const Favorites = require('../models/favorites');
 const Comments = require('../models/comments');
 const { default: mongoose } = require('mongoose');
+const Movies = require('../models/movies');
 
 const logError = (context, error) => {
     console.error(`Error in ${context}:`, {
