@@ -9,7 +9,9 @@ const CategorySchema = new Schema({
 const GroupSchema = new Schema({
     id: { type: String, required: true },
     name: { type: String, required: true },
-    list: [CategorySchema]
+    list: [CategorySchema],
+    createdAt: { type: Date, default: Date.now },
+
 });
 
 const Category = mongoose.model('Category', CategorySchema);

@@ -23,7 +23,9 @@ const movieSchema = new Schema({
                 name: String
             }
         ]
-    }) }
+    }) },
+    createdAt: { type: Date, default: Date.now },
+
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

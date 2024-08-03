@@ -20,7 +20,8 @@ const favoriteSchema = new mongoose.Schema({
             director: String,
             casts: String,
             category: { type: Object },
-            episodes: []
+            episodes: [],
+            createdAt: { type: Date, default: Date.now },
 
         }
     ]
