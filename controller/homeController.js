@@ -363,6 +363,16 @@ const commentReply = async (req, res) => {
     }
 };
 
+const createMovie = async (req, res) => {
+    try {
+        const movieData = req.body
+        const newMovie = new Movies(movieData);
+        await newMovie.save();
+        res.status(201).json({ message: 'Movie created successfully', movie });
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while creating the movie', error });
+    }
+}
 
 
 
@@ -383,5 +393,6 @@ module.exports = {
     removeFavoriteMovie,
     commentMovie,
     commentReply,
-    getComments
+    getComments,
+    createMovie
 };

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const logger = require('./logger'); // Assuming logger.js is in the same directory
+const logger = require('./logger'); 
 const dotenv = require('dotenv');
 
 const connectDB = async () => {
@@ -11,7 +11,7 @@ const connectDB = async () => {
     logger.info('Kết nối CSDL thành công.');
   } catch (err) {
     logger.error(`Không thể kết nối CSDL: ${err}`);
-    process.exit(1); // Exit the process with failure
+    process.exit(1);
   }
 };
 
