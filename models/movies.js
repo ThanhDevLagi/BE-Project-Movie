@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const { Group } = require('./group'); // Đảm bảo đường dẫn là chính xác
 const Schema = mongoose.Schema;
 
-const MoviesSchema = new Schema({
+// Định nghĩa mô hình Movie
+const movieSchema = new Schema({
     name: { type: String, required: true },
     slug: { type: String, required: true },
     original_name: { type: String, required: true },
@@ -26,8 +26,4 @@ const MoviesSchema = new Schema({
     }) }
 });
 
-const Movies = mongoose.model('Movies', MoviesSchema);
-
-module.exports = {
-    Movies,
-};
+module.exports = mongoose.model('Movie', movieSchema);
