@@ -398,7 +398,7 @@ const createMovie = async (req, res) => {
 
 const groupCategory = async(req, res ) => {
     try {
-        const groups = await Movies.Group.find().populate('list');
+        const groups = await Movies.Group.find();
         res.json(groups);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch groups', error });
