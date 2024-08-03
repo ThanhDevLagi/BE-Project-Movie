@@ -394,6 +394,24 @@ const groupCategory = async(req, res ) => {
     }
 }
 
+const getMovies = async (req, res) => {
+    try {
+        const data = await Movies.find();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch movies', error });
+    }
+}
+
+const getMovieDetail = async (req, res) => {
+    try {
+        const data = await Movies.findById(req.params.id);
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch movies', error });
+    }
+}
+
 module.exports = {
     moviesApiUpdate,
     moviesApiSingle,
@@ -413,5 +431,7 @@ module.exports = {
     commentReply,
     getComments,
     createMovie,
-    groupCategory
+    groupCategory,
+    getMovies,
+    getMovieDetail
 };
