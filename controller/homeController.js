@@ -8,6 +8,7 @@ const Favorites = require('../models/favorites');
 const Comments = require('../models/comments');
 const { default: mongoose } = require('mongoose');
 const Movies = require('../models/movies');
+const { Group } = require('../models/group');
 
 const logError = (context, error) => {
     console.error(`Error in ${context}:`, {
@@ -398,7 +399,7 @@ const createMovie = async (req, res) => {
 
 const groupCategory = async(req, res ) => {
     try {
-        const groups = await Movies.Group.find();
+        const groups = await Group.find();
         res.json(groups);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch groups', error });
