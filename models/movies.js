@@ -1,8 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const CategorySchema = new Schema({
+    id: { type: String, required: true },
+    name: { type: String, required: true }
+});
+
+const GroupSchema = new Schema({
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    list: [CategorySchema]
+});
+
 const MoviesSchema = new Schema({
-    id: {type: mongoose.Schema.Types.ObjectId},
+    id: { type: mongoose.Schema.Types.ObjectId},
     name: { type: String, required: true },
     slug: String,
     original_name: String,
@@ -18,19 +29,7 @@ const MoviesSchema = new Schema({
     language: String,
     director: String,
     casts: String,
-    category: {
-        type: Map,
-        of: new Schema({
-            group: {
-                id: String,
-                name: String
-            },
-            list: [{
-                id: String,
-                name: String
-            }]
-        })
-    }
+    category: { type: Map, of: GroupSchema }
 });
 
 const Movies = mongoose.model('Movies', MoviesSchema);

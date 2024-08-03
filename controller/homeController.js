@@ -366,14 +366,35 @@ const commentReply = async (req, res) => {
 
 const createMovie = async (req, res) => {
     try {
-        const movieData = req.body
-        const newMovie = new Movies(movieData);
-        await newMovie.save();
+        const movieData = req.body;
+
+        if (movieData.category) {
+            const structuredCategories = {};
+
+            for (const [key, value] of Object.entries(movieData.category)) {
+                structuredCategories[key] = {
+                    group: {
+                        id: value.group.id,
+                        name: value.group.name
+                    },
+                    list: value.list.map(item => ({
+                        id: item.id,
+                        name: item.name
+                    }))
+                };
+            }
+
+            movieData.category = structuredCategories;
+        }
+
+        const movie = new Movies(movieData);
+        await movie.save();
         res.status(201).json({ message: 'Movie created successfully', movie });
     } catch (error) {
+        console.error('Error creating movie:', error);
         res.status(500).json({ message: 'An error occurred while creating the movie', error });
     }
-}
+};
 
 
 
