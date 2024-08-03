@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const appRoot = require('app-root-path');
-const { moviesApiUpdate, moviesApiSingle, moviesApiSeries, moviesApiAnime, detailMovies, moviestvShowApi, movieCategories, getUsers, loginUser, registerUser, addFavoriteMovie, getFavoriteMovies, removeFavoriteMovie, commentMovie, commentReply, getComments } = require('../controller/homeController');
+const { moviesApiUpdate, moviesApiSingle, moviesApiSeries, moviesApiAnime, detailMovies, moviestvShowApi, movieCategories, getUsers, loginUser, registerUser, addFavoriteMovie, getFavoriteMovies, removeFavoriteMovie, commentMovie, commentReply, getComments, createMovie } = require('../controller/homeController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -30,6 +30,7 @@ router.get('/getComments/:movieSlug', getComments);
 
 //post
 router.post('/login', loginUser);
+router.post('/movies', createMovie);
 router.post('/register', registerUser);
 router.post('/addFavoriteMovie', addFavoriteMovie);
 router.post('/removeFavoriteMovie', removeFavoriteMovie);
