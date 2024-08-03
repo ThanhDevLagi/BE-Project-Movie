@@ -1,19 +1,9 @@
 const mongoose = require('mongoose');
+const { Group } = require('./group'); // Đảm bảo đường dẫn là chính xác
 const Schema = mongoose.Schema;
 
-const CategorySchema = new Schema({
-    id: { type: String, required: true },
-    name: { type: String, required: true }
-});
-
-const GroupSchema = new Schema({
-    id: { type: String, required: true },
-    name: { type: String, required: true },
-    list: [CategorySchema]
-});
-
 const MoviesSchema = new Schema({
-    id: { type: mongoose.Schema.Types.ObjectId},
+    id: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String, required: true },
     slug: String,
     original_name: String,
@@ -29,14 +19,11 @@ const MoviesSchema = new Schema({
     language: String,
     director: String,
     casts: String,
-    category: { type: Map, of: GroupSchema }
+    category: [{ type: Schema.Types.ObjectId, ref: 'Group' }] 
 });
 
 const Movies = mongoose.model('Movies', MoviesSchema);
-const Category = mongoose.model('Category', CategorySchema);
-const Group = mongoose.model('Group', GroupSchema);
+
 module.exports = {
     Movies,
-    Category,
-    Group
 };
