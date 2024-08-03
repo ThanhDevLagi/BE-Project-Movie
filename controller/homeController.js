@@ -369,33 +369,32 @@ const createMovie = async (req, res) => {
     try {
         const movieData = req.body;
 
-        if (movieData.category) {
-            const structuredCategories = {};
+        console.log('Received movie data:', movieData); 
 
+        if (movieData.category && typeof movieData.category === 'object' && !Array.isArray(movieData.category)) {
             for (const [key, value] of Object.entries(movieData.category)) {
-                structuredCategories[key] = {
-                    group: {
-                        id: value.group.id,
-                        name: value.group.name
-                    },
-                    list: value.list.map(item => ({
-                        id: item.id,
-                        name: item.name
-                    }))
-                };
+                if (!value.group || !value.group.id || !value.group.name || !Array.isArray(value.list)) {
+                    throw new Error('Invalid category structure');
+                }
+                value.list.forEach(item => {
+                    if (!item.id || !item.name) {
+                        throw new Error('Invalid category item structure');
+                    }
+                });
             }
-
-            movieData.category = structuredCategories;
+        } else {
+            throw new Error('Invalid category format');
         }
 
         const movie = new Movies(movieData);
         await movie.save();
         res.status(201).json({ message: 'Movie created successfully', movie });
     } catch (error) {
-        console.error('Error creating movie:', error);
-        res.status(500).json({ message: 'An error occurred while creating the movie', error });
+        console.error('Error creating movie:', error.message);
+        res.status(500).json({ message: 'An error occurred while creating the movie', error: error.message });
     }
 };
+
 
 const groupCategory = async(req, res ) => {
     try {
