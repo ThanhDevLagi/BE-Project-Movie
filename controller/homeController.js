@@ -421,6 +421,18 @@ const updateMovie = async (req, res) => {
         res.status(500).json({ message: 'An error occurred while updating the movie', error: error.message });
     }
 }
+const DeleteMovie = async (req, res) => {
+    try {
+        const result = await Movies.findByIdAndDelete(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+        res.status(200).json({ message: 'Movie deleted successfully' });
+    } catch (error) {
+        console.error('Failed to delete movie', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
 
 module.exports = {
     moviesApiUpdate,
@@ -444,5 +456,6 @@ module.exports = {
     groupCategory,
     getMovies,
     getMovieDetail,
-    updateMovie
+    updateMovie,
+    DeleteMovie
 };
