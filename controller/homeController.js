@@ -412,6 +412,16 @@ const getMovieDetail = async (req, res) => {
     }
 }
 
+const updateMovie = async (req, res) => {
+    try{
+        const updatedMovie = await Movies.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedMovie);
+    }catch (error){
+        console.error('Error updating movie:', error);
+        res.status(500).json({ message: 'An error occurred while updating the movie', error: error.message });
+    }
+}
+
 module.exports = {
     moviesApiUpdate,
     moviesApiSingle,
@@ -433,5 +443,6 @@ module.exports = {
     createMovie,
     groupCategory,
     getMovies,
-    getMovieDetail
+    getMovieDetail,
+    updateMovie
 };
