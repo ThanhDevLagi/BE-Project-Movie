@@ -39,7 +39,7 @@ router.post('/addFavoriteMovie', addFavoriteMovie);
 router.post('/removeFavoriteMovie', removeFavoriteMovie);
 router.post('/comments', commentMovie)
 router.post('/commentsReply/:id', commentReply);
-router.patch('/movie/:id',updateMovie);
+router.put('/movie/:id',updateMovie);
 
 
 module.exports = router;
