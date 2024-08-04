@@ -29,7 +29,7 @@ router.get('/favoriteMovies/:userId', getFavoriteMovies);
 router.get('/getComments/:movieSlug', getComments);
 router.get('/Groups', groupCategory);
 router.get('/movies',   getMovies);
-router.get('/movies/:id',   getMovieDetail);
+router.get('/movie/:id',   getMovieDetail);
 
 //post
 router.post('/login', loginUser);
@@ -39,7 +39,7 @@ router.post('/addFavoriteMovie', addFavoriteMovie);
 router.post('/removeFavoriteMovie', removeFavoriteMovie);
 router.post('/comments', commentMovie)
 router.post('/commentsReply/:id', commentReply);
-router.post('/movies/:id',   updateMovie);
+router.post('/movie/:id',   updateMovie);
 
 
 module.exports = router;
