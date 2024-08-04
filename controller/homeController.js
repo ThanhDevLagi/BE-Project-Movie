@@ -318,15 +318,16 @@ const getComments = async (req, res) => {
 
 const commentMovie = async (req, res) => {
     try {
-        const { userId, movieSlug, comment } = req.body;
+        const { userId, userName,  movieSlug, comment } = req.body;
 
-        if (!userId || !movieSlug || !comment) {
+        if (!userId || ! userName || !movieSlug || !comment) {
             return res.status(400).json({ message: 'userId, movieSlug, and comment are required' });
         }
 
         const newComment = new Comments({
             idMovie: movieSlug, 
             userId,
+            userName: userName,
             content: comment,
             replies: [],
             createdAt: new Date(),

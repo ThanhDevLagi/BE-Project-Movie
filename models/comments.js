@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
     idMovie: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userName: { type: String, ref: 'User', required: true },
     content: { type: String, required: true },
     replies: [
         {
