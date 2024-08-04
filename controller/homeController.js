@@ -320,8 +320,8 @@ const commentMovie = async (req, res) => {
     try {
         const { userId, userName,  movieSlug, comment } = req.body;
 
-        if (!userId || ! userName || !movieSlug || !comment) {
-            return res.status(400).json({ message: 'userId, movieSlug, and comment are required' });
+        if (!userId || !userName || !movieSlug || !comment) {
+            return res.status(400).json({ message: 'userId, userName, movieSlug, and comment are required' });
         }
 
         const newComment = new Comments({
@@ -344,7 +344,7 @@ const commentMovie = async (req, res) => {
 
 
 const commentReply = async (req, res) => {
-    const { userId, reply } = req.body;
+    const { userId , userName, reply } = req.body;
     const { id } = req.params;
 
     try {
@@ -355,6 +355,7 @@ const commentReply = async (req, res) => {
 
         comment.replies.push({
             userId: userId,
+            userName: userName,
             content: reply,
         });
 
