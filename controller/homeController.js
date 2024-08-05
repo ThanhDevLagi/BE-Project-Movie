@@ -9,6 +9,7 @@ const Comments = require('../models/comments');
 const { default: mongoose } = require('mongoose');
 const Movies = require('../models/movies');
 const { Group } = require('../models/group');
+const Categories = require('../models/categories');
 
 const logError = (context, error) => {
     console.error(`Error in ${context}:`, {
@@ -436,6 +437,15 @@ const DeleteMovie = async (req, res) => {
     }
 }
 
+const getCategories = async (req, res) => {
+    try {
+        const categories = await Categories.find();
+        res.json(categories);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch categories', error });
+    }
+}
+
 module.exports = {
     moviesApiUpdate,
     moviesApiSingle,
@@ -459,5 +469,6 @@ module.exports = {
     getMovies,
     getMovieDetail,
     updateMovie,
-    DeleteMovie
+    DeleteMovie,
+    getCategories,
 };
