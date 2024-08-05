@@ -446,6 +446,41 @@ const getCategories = async (req, res) => {
     }
 }
 
+const postCategories = async (req, res) => {
+    try {
+        const category = new Categories(req.body);
+        await category.save();
+        res.status(201).json(category);
+    } catch (error) {
+        console.error('Error creating category:', error);
+        res.status(500).json({ message: 'An error occurred while creating the category', error: error.message });
+    }
+}
+
+const patchCategories = async (req, res)=>{
+    try {
+        const updatedCategory = await Categories.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedCategory);
+    } catch (error) {
+        console.error('Error updating category:', error);
+        res.status(500).json({ message: 'An error occurred while updating the category', error: error.message });
+    }
+}
+
+const deleteCategories = async (req, res)=>{
+    try {
+        const result = await Categories.findByIdAndDelete(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+        res.status(200).json({ message: 'Category deleted successfully' });
+    } catch (error) {
+        console.error('Failed to delete category', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
 module.exports = {
     moviesApiUpdate,
     moviesApiSingle,
@@ -471,4 +506,7 @@ module.exports = {
     updateMovie,
     DeleteMovie,
     getCategories,
+    postCategories,
+    patchCategories,
+    deleteCategories
 };
